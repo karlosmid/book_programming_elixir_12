@@ -13,4 +13,6 @@ defmodule MyList do
     IO.puts total
     _sum(tail, head+total)
   end
+  def sum_no_total([]), do: 0
+  def sum_no_total([head|tail]), do: head + sum_no_total(tail)
 end
