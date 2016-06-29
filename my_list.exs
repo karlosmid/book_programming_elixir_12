@@ -15,4 +15,8 @@ defmodule MyList do
   end
   def sum_no_total([]), do: 0
   def sum_no_total([head|tail]), do: head + sum_no_total(tail)
+  def reduce([],value,_), do: value
+  def reduce([head|tail],value, func), do: reduce(tail, func.(head,value), func)
+  def mapsum([],_), do: 0
+  def mapsum([head|tail],func), do: func.(head) + mapsum(tail,func)
 end
