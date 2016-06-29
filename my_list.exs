@@ -7,9 +7,10 @@ defmodule MyList do
   def add([head|tail]), do: [head+1|add(tail)]
   def map([],_func), do: []
   def map([head|tail], func), do: [func.(head) | map(tail,func)]
-  def sum([],total), do: total
-  def sum([head|tail], total) do
+  def sum(list), do: _sum(list,0)
+  def _sum([],total), do: total
+  def _sum([head|tail], total) do
     IO.puts total
-    sum(tail, head+total)
+    _sum(tail, head+total)
   end
 end
