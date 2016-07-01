@@ -27,4 +27,7 @@ defmodule MyList do
   def wrap(letter) when rem(letter,?z)!=letter, do: ?`+rem(letter,?z)
   def wrap(letter), do: letter
   def caesar(list,chiper), do: list |> map(&(&1+chiper)) |> map(&wrap(&1))
+  def span(from,to) when from==to, do: [from]
+  def span(from,to) when from<to, do: [from]++span(from+1,to)
+  def span(from,to) when from>to, do: [from]++span(from-1,to)
 end
