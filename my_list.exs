@@ -20,4 +20,11 @@ defmodule MyList do
   def mapsum([],_), do: 0
   def mapsum([head|tail],func), do: func.(head) + mapsum(tail,func)
   def pipe_mapsum(list,func), do: list |> map(func) |> sum
+  def max(list), do: _max(list,0)
+  defp _max([],max_value), do: max_value
+  defp _max([head|tail],max_value) when head>=max_value, do: _max(tail, head)
+  defp _max([head|tail],max_value) when head<max_value, do: _max(tail, max_value)
+  def wrap(n) when rem(n,122)!=n, do: 96+rem(n,122)
+  def wrap(n), do: n
+  def caesar(list,n), do: list |> map(&(&1+n)) |> map(&wrap(&1))
 end
