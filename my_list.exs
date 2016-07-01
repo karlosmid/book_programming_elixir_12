@@ -24,7 +24,7 @@ defmodule MyList do
   defp _max([],max_value), do: max_value
   defp _max([head|tail],max_value) when head>=max_value, do: _max(tail, head)
   defp _max([head|tail],max_value) when head<max_value, do: _max(tail, max_value)
-  def wrap(n) when rem(n,122)!=n, do: 96+rem(n,122)
-  def wrap(n), do: n
-  def caesar(list,n), do: list |> map(&(&1+n)) |> map(&wrap(&1))
+  def wrap(letter) when rem(letter,?z)!=letter, do: ?`+rem(letter,?z)
+  def wrap(letter), do: letter
+  def caesar(list,chiper), do: list |> map(&(&1+chiper)) |> map(&wrap(&1))
 end
