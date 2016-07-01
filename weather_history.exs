@@ -1,7 +1,7 @@
 defmodule WeatherHistory do
-  def for_location_27([]), do: []
-  def for_location_27([[time,27,temp,rain]|tail]), do: [[time,27,temp,rain]|for_location_27(tail)]
-  def for_location_27([_|tail]), do: for_location_27(tail)
+  def for_location([],_target_loc), do: []
+  def for_location([[time,target_loc,temp,rain]|tail],target_loc), do: [[time,target_loc,temp,rain]|for_location(tail,target_loc)]
+  def for_location([_|tail],target_loc), do: for_location(tail,target_loc)
   def test_data do
     [
     [1366225622,26,15,0.125],
