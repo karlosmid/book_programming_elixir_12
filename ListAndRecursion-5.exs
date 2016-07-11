@@ -9,6 +9,8 @@ defmodule ListAndRecursion do
   defp _split(list,count,left) when (count > 0 and count > length(list)), do: {list,left}
   defp _split(list,count,left) when (count < 0 and (count * -1) > length(list)), do: {left,list}
   defp _split(list,count,left) when count < 0, do: _split(list, length(list) + count,left)
-  defp _split([head|tail],count,left) when count > 0, do: _split(tail, count - 1,left++[head])
-  defp _split(list,0,left), do: {left,list}
+  defp _split([head|tail],count,left) when count > 0, do: _split(tail, count - 1,[head|left])
+  defp _split(list,0,left), do: {Enum.reverse(left),list}
+  def take(list,n) when n < 0, do: elem split(list,n),1
+  def take(list,n), do: elem split(list,n),0
 end
