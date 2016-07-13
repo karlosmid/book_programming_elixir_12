@@ -13,4 +13,9 @@ defmodule ListAndRecursion do
   defp _split(list,0,left), do: {Enum.reverse(left),list}
   def take(list,n) when n < 0, do: elem split(list,n),1
   def take(list,n), do: elem split(list,n),0
+  #was not able to come up with my solution, investigated Valim solution :(
+  def flatten(list), do: _flatten(list,[])
+  defp _flatten([h|t],tail) when is_list(h), do: _flatten(h,_flatten(t, tail))
+  defp _flatten([h|t],tail), do: [h|_flatten(t,tail)]
+  defp _flatten([],tail), do: tail
 end
