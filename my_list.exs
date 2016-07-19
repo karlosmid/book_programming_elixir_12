@@ -30,4 +30,8 @@ defmodule MyList do
   def span(from,to) when from==to, do: [from]
   def span(from,to) when from<to, do: [from|span(from+1,to)]
   def span(from,to) when from>to, do: [from|span(from-1,to)]
+  def prime(up_to, _sieve) when up_to<4, do: span(1,up_to)
+  def prime(up_to, sieve), do: span(2,up_to) -- Enum.uniq(not_prime(up_to, sieve))
+  def not_prime(up_to, sieve) when sieve, do: for x <- span(4,up_to), y <- span(2,Float.floor(:math.sqrt(x))), rem(x,y) == 0, do: x
+  def not_prime(up_to, sieve) when sieve == false, do: for x <- span(4,up_to), y <- span(2,x-1), rem(x,y) == 0, do: x
 end
