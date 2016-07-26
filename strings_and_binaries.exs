@@ -17,7 +17,7 @@ defmodule StringsAndBinaries do
       %{"first" => a, "operand" => "/", "second" => b} ->
         elem(Integer.parse(a),0) / elem(Integer.parse(b),0)
       %{"first" => _, "operand" => non_support, "second" => _} ->
-        raise "Not supported opperand '#{non_support}'"
+        raise "Not supported operand '#{non_support}'"
       _ -> raise "Not parsable input"
     end
   end
