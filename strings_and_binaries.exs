@@ -21,4 +21,10 @@ defmodule StringsAndBinaries do
       _ -> raise "Not parsable input"
     end
   end
+  def center(list), do: _center(Enum.sort_by(list,&String.length/1))
+  defp _center(sorted_by_length) do
+    longest = String.length(Enum.at(sorted_by_length,-1))
+    sorted_by_length |> Enum.each(fn(x) -> IO.puts String.pad_leading(x,_calc_pad(longest,String.length(x))) end)
+  end
+  defp _calc_pad(longest_length,current_length), do: round(Float.ceil(longest_length/2) - Float.ceil(current_length/2) + current_length)
 end
