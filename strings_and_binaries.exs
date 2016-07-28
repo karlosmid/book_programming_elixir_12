@@ -27,4 +27,7 @@ defmodule StringsAndBinaries do
     sorted_by_length |> Enum.each(fn(x) -> IO.puts String.pad_leading(x,_calc_pad(longest,String.length(x))) end)
   end
   defp _calc_pad(longest_length,current_length), do: round(Float.ceil(longest_length/2) - Float.ceil(current_length/2) + current_length)
+  def capitalize_sentences(input)  do
+    input |> String.split(". ") |> Enum.map(&String.capitalize/1) |> Enum.join(". ")
+  end
 end
