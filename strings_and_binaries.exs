@@ -30,4 +30,14 @@ defmodule StringsAndBinaries do
   def capitalize_sentences(input)  do
     input |> String.split(". ") |> Enum.map(&String.capitalize/1) |> Enum.join(". ")
   end
+  def read_orders(file_name) do
+    {:ok, data} = File.read(file_name)
+    data_list = Enum.drop(String.split(data,"\n"),-1)
+    header = String.split(Enum.at(data_list,0),",") |> Enum.map(&String.to_atom/1)
+    data_list |> Enum.drop(1) |> Enum.map(&_transform/1) |> Enum.map(fn(x) -> Enum.zip(header,x) end)
+  end
+  defp _transform(data) do
+    data_as_list = String.split(data,",")
+    [String.to_integer(Enum.at(data_as_list,0)),String.to_atom(String.replace(Enum.at(data_as_list,1),":","")),String.to_float(Enum.at(data_as_list,2))]
+  end
 end
