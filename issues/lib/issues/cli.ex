@@ -39,14 +39,20 @@ defmodule Issues.CLI do
    |> convert_to_list_of_maps
    |> sort_into_ascending_order
    |> Enum.take(count)
-   |> Enum.map(&IO.inspect/1)
+   |> table_print
+ end
+ def table_print issues do
+   IO.puts "#    |    created_at        | title"
+   IO.puts "-----+----------------------+-------------------------"
+   issues
+   |> Enum.map(fn(x) -> IO.puts "#{x["number"]} | #{x["created_at"]} | #{x["title"]}" end)
  end
  def sort_into_ascending_order(list_of_issues) do
    Enum.sort list_of_issues, fn i1,i2 -> i1["created_at"] <= i2["created_at"] end
  end
  def decode_response({:ok, body}), do: body
- def decode_response({:error, body}) do
-   {_,message} = List.keyfind(:error,"message",0)
+ def decode_response({:error, error}) do
+   {_,message} = List.keyfind(error,"message",0)
    IO.puts "Error fetching from Github: #{message}"
    System.halt(2)
  end
