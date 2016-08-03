@@ -46,7 +46,7 @@ defmodule Issues.CLI do
    IO.puts create_header(columns,header_column_lengths)
    IO.puts create_separator(columns,header_column_lengths)
    issues
-   |> Enum.map(fn(x) -> IO.puts "#{x["number"]} | #{x["created_at"]} | #{x["title"]}" end)
+   |> Enum.map(fn(x) -> IO.puts(create_body(columns,header_column_lengths,x)) end)
  end
  def get_longer column_info do
    case {String.length(elem(column_info,0)),elem(column_info,1)} do
@@ -58,13 +58,19 @@ defmodule Issues.CLI do
  def create_separator(columns,header_column_lengths) do
    columns
    |> Enum.zip(header_column_lengths)
-   |> Enum.map(fn(x) -> "#{String.duplicate("-",get_longer(x))}+" end)
+   |> Enum.map(fn(x) -> "+#{String.duplicate("-",get_longer(x))}" end)
+   |> Enum.join
+ end
+ def create_body(columns,header_column_lengths,row) do
+   columns
+   |> Enum.zip(header_column_lengths)
+   |> Enum.map(fn(x) -> "|#{String.pad_trailing(to_string(row[elem(x,0)]),get_longer(x))}" end)
    |> Enum.join
  end
  def create_header(columns,header_column_lengths) do
    columns
    |> Enum.zip(header_column_lengths)
-   |> Enum.map(fn(x) -> "#{String.pad_trailing(elem(x,0),get_longer(x))}|" end)
+   |> Enum.map(fn(x) -> "|#{String.pad_trailing(elem(x,0),get_longer(x))}" end)
    |> Enum.join
  end
  def column_widths issues,columns do
