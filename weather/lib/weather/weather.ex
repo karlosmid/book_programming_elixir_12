@@ -1,4 +1,8 @@
 defmodule Weather.WeatherData do
+  @moduledoc """
+    Fetches weather data in xml format from weather gov site
+    based on city code
+  """
   def fetch(city_code) do
     weather_url(city_code)
     |> HTTPoison.get

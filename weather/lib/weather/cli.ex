@@ -34,20 +34,21 @@ defmodule Weather.CLI do
  def process({city_code}) do
    Weather.WeatherData.fetch(city_code)
    |> decode_response
-   |> convert_to_list_of_maps
-   |> Weather.TableFormatter.table_print()
- end
- def sort_into_ascending_order(list_of_issues) do
-   Enum.sort list_of_issues, fn i1,i2 -> i1["created_at"] <= i2["created_at"] end
+   |> Weather.FlatXmlParser.convert_xml_to_list(Enum.take(elements,5))
+   |> Weather.TableFormatter.table_print(city_code)
  end
  def decode_response({:ok, body}), do: body
  def decode_response({:error, error}) do
    {_,message} = List.keyfind(error,"message",0)
-   IO.puts "Error fetching from Github: #{message}"
+   IO.puts "Error fetching from weather site: #{message}"
    System.halt(2)
  end
- def convert_to_list_of_maps(list) do
-   list
-   |> Enum.map(&Enum.into(&1, Map.new))
+ def elements do
+   ["credit","credit_URL","suggested_pickup","suggested_pickup_period","location","station_id","latitude",
+	"longitude","observation_time","observation_time_rfc822","weather","temperature_string",
+	"temp_f","temp_c","relative_humidity","wind_string","wind_dir","wind_degrees","wind_mph",
+	"wind_kt","pressure_string","pressure_mb","pressure_in","dewpoint_string","dewpoint_f",
+	"dewpoint_c","visibility_mi","icon_url_base","two_day_history_url","icon_url_name","ob_url",
+	"disclaimer_url","copyright_url","privacy_policy_url"]
  end
 end
