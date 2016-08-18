@@ -3,13 +3,14 @@ defmodule Weather.WeatherData do
     Fetches weather data in xml format from weather gov site
     based on city code
   """
+  @weather_url_base Application.get_env(:weather, :weather_url)
   def fetch(city_code) do
     weather_url(city_code)
     |> HTTPoison.get
     |> handle_response
   end
   def weather_url(city_code) do
-    "http://w1.weather.gov/xml/current_obs/#{city_code}.xml"
+    "#{@weather_url_base}#{city_code}.xml"
   end
   def handle_response({:ok, %{status_code: 200, body: body}}) do
     {:ok, body}

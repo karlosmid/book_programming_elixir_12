@@ -12,6 +12,7 @@ use Mix.Config
 #
 #     config :weather, key: :value
 #
+config :weather, weather_url: "http://w1.weather.gov/xml/current_obs/"
 # And access this configuration in your application as:
 #
 #     Application.get_env(:weather, :key)
