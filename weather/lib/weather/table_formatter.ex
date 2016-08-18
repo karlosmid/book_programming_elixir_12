@@ -14,6 +14,9 @@ defmodule Weather.TableFormatter do
    IO.puts "Weather data from weather.gov for city code: #{city_code}"
    IO.puts "---------------------------------------------------------"
  end
+ @doc """
+   Creates key: value body data
+ """
  def create_body(data) do
    data
    |> Enum.map(fn(x) -> "|#{elem(x,0)}: #{elem(x,1)}|\n" end)
