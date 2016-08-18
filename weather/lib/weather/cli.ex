@@ -34,7 +34,7 @@ defmodule Weather.CLI do
  def process({city_code}) do
    Weather.WeatherData.fetch(city_code)
    |> decode_response
-   |> Weather.FlatXmlParser.convert_xml_to_list(Enum.take(elements,5))
+   |> Weather.FlatXmlParser.convert_xml_to_list()
    |> Weather.TableFormatter.table_print(city_code)
  end
  def decode_response({:ok, body}), do: body
