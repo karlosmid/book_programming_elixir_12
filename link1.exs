@@ -5,7 +5,7 @@ defmodule Link1 do
     exit(:boom)
   end
   def run do
-    spawn(Link1,:sad_function,[])
+    spawn_link(Link1,:sad_function,[])
     receive do
       msg ->
         IO.puts "MESSAGE RECEIVED: #{inspect msg}"
