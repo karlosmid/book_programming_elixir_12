@@ -5,7 +5,7 @@ defmodule MultipleProcessesExercise do
     raise "boom"
   end
   def run do
-    spawn_link(MultipleProcessesExercise, :greet, [self])
+    spawn_monitor(MultipleProcessesExercise, :greet, [self])
     sleep 500
     collect_msg
   end
