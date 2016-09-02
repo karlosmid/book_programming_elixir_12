@@ -2,10 +2,9 @@ defmodule MultipleProcessesExercise do
   import :timer, only: [sleep: 1]
   def greet tata do
     send(tata, "dolaze izbori!")
-    exit(:boom)
+    raise "boom"
   end
   def run do
-    Process.flag(:trap_exit, true)
     spawn_link(MultipleProcessesExercise, :greet, [self])
     sleep 500
     collect_msg
