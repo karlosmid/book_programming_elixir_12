@@ -5,8 +5,8 @@ defmodule Link1 do
     exit(:boom)
   end
   def run do
-    Process.flag(:trap_exit,true)
-    spawn_link(Link1,:sad_function,[])
+    res = spawn_monitor(Link1,:sad_function,[])
+    IO.puts inspect res
     receive do
       msg ->
         IO.puts "MESSAGE RECEIVED: #{inspect msg}"
