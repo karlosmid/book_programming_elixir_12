@@ -5,6 +5,7 @@ defmodule Link1 do
     exit(:boom)
   end
   def run do
+    Process.flag(:trap_exit,true)
     spawn_link(Link1,:sad_function,[])
     receive do
       msg ->
