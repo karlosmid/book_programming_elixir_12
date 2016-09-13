@@ -14,7 +14,29 @@ defmodule FibSolver do
   defp fib_calc(1), do: 1
   defp fib_calc(n), do: fib_calc(n-1) + fib_calc(n-2)
 end
+defmodule CatSolver do
+  def cat(scheduler) do
+    send scheduler, {:ready,self}
+    receive do
+      {:cat,file,client} ->
+        send client, {:answer,file,no_of_cats(file),self}
+        cat(scheduler)
+      {:shutdown} -> 
+        exit(:normal)
+    end
+  end
 
+  def no_of_cats(file) do
+    case File.dir?(file) do
+      :false ->
+        x = File.read!(file)
+        |> String.split("cat")
+        |> length
+        (x - 1)
+      :true -> 0
+    end
+  end
+end
 defmodule Scheduler do
   def run(num_processes,module,func,to_calculate) do
     (1..num_processes)
@@ -25,7 +47,7 @@ defmodule Scheduler do
     receive do
       {:ready,pid} when length(queue) > 0 ->
         [next | tail] = queue
-        send pid, {:fib, next,self}
+        send pid, {:cat, next,self}
         schedule_processes(processes,tail,results)
       {:ready,pid} ->
         send pid, {:shutdown}
@@ -40,10 +62,11 @@ defmodule Scheduler do
   end
 end
 
-to_process = [37,37,37,37,37,37]
+#to_process = [37,37,37,37,37,37]
+to_process = File.ls!(".")
 
 Enum.each 1..10, fn num_processes ->
-  {time,result} = :timer.tc(Scheduler,:run,[num_processes,FibSolver,:fib,to_process])
+  {time,result} = :timer.tc(Scheduler,:run,[num_processes,CatSolver,:cat,to_process])
 
   if num_processes == 1 do
     IO.puts inspect result
