@@ -9,6 +9,20 @@ defmodule Ticker do
   def register(client_pid) do
     send :global.whereis_name(@name), {:register,client_pid}
   end
+  
+  def do_round_robin_tick(list,len) when len > 0, do: send_and_round(list)
+  def do_round_robin_tick(list,len) when len == 0, do: []
+  
+  
+  def send_and_round(list) do
+    send Enum.at(list,0), {:tick}
+    round_robin(list)
+  end
+
+  def round_robin list do
+    [head|tail] = list
+    tail ++ [head]
+  end
 
   def generator(clients) do
     receive do
@@ -18,9 +32,8 @@ defmodule Ticker do
     after
       @interval ->
         IO.puts "tick"
-        Enum.each clients, fn client ->
-          send client, {:tick}
-        end
+        clients = do_round_robin_tick(clients,length(clients))
+        IO.puts "#{inspect clients}"
         generator(clients)
     end
   end
@@ -34,7 +47,7 @@ defmodule Client do
   def receiver do
     receive do
       {:tick} ->
-        IO.puts "Tick in client"
+        IO.puts "Tock in client"
         receiver
     end
   end
