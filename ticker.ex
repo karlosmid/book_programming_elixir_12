@@ -3,7 +3,7 @@ defmodule Ticker do
   @name :ticker
 
   def start do
-    pid = spawn(_MODULE_, :generator, [[]])
+    pid = spawn(__MODULE__, :generator, [[]])
     :global.register_name(@name,pid)
   end
   def register(client_pid) do
@@ -22,6 +22,20 @@ defmodule Ticker do
           send client, {:tick}
         end
         generator(clients)
+    end
+  end
+end
+
+defmodule Client do
+  def start do
+    pid = spawn(__MODULE__,:receiver,[])
+    Ticker.register(pid)
+  end
+  def receiver do
+    receive do
+      {:tick} ->
+        IO.puts "Tick in client"
+        receiver
     end
   end
 end
