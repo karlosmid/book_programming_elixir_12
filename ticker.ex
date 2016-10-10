@@ -15,15 +15,16 @@ defmodule Ticker do
       {:register, pid} ->
         IO.puts "registering #{inspect pid}"
         case next do
-          nil -> 
+          nil ->
             send pid, {:next,self}
-            send pid, {:tick}
+            send pid, {:tick,0}
           _ -> send pid, {:next,next}
         end
         generator(pid)
-      {:tick} ->
+      {:tick,n} ->
+        IO.puts "Tock in client #{inspect n}"
         :timer.sleep @interval
-        send next, {:tick}
+        send next, {:tick,n+1}
       generator(next)
     end
   end
@@ -37,10 +38,10 @@ defmodule Client do
   end
   def receiver(next) do
     receive do
-      {:tick} ->
-        IO.puts "Tock in client"
+      {:tick,n} ->
+        IO.puts "Tock in client #{inspect n}"
         :timer.sleep(@interval)
-        send next, {:tick}
+        send next, {:tick,n+1}
         receiver(next)
       {:next,next} ->
         IO.puts "next is #{inspect next}"
