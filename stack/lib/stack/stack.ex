@@ -4,7 +4,7 @@ defmodule Stack.Server do
   def handle_call(:pop, _from, [head|tail]) do
     {:reply, head, tail}
   end
-  def handle_cast({:push,value},[head|tail]) do
-    {:noreply, [value]++[head]++tail}
+  def handle_cast({:push,value},[head|stack]) do
+    {:noreply, [value|stack]}
   end
 end
