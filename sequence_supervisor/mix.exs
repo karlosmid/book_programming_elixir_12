@@ -15,7 +15,7 @@ defmodule SequenceSupervisor.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger],
-     mod: {SequenceSupervisor, []}]
+     mod: {Sequence, []}]
   end
 
   # Dependencies can be Hex packages:
