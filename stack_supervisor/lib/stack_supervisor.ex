@@ -4,6 +4,6 @@ defmodule Stack do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    {:ok, _pid} = Stack.Supervisor.start_link([1,2,3,4])
+    {:ok, _pid} = Stack.Supervisor.start_link(Application.get_env(:stack_supervisor, :initial_stack))
   end
 end

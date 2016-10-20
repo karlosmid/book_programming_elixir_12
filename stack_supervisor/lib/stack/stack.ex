@@ -24,6 +24,6 @@ defmodule Stack.Server do
   end
   def terminate(reason,{stack,stash_pid}) do
     IO.puts "#{inspect reason}"
-    Sequence.Stash.save_value stash_pid, stack
+    Stack.Stash.save_value stash_pid, stack
   end
 end
