@@ -1,5 +1,6 @@
 defmodule Sequence.Server do
   use GenServer
+  @vsn "0"
   #api interface
 
   def start_link(stash_pid) do
